@@ -5,7 +5,7 @@
 - requests
 - pymysql(可选)
 # Usage
-0. 使用每个脚本前，如需将数据存放于数据库，则修改脚本if_use_sql，并修改脚本中mysql的host，username与password，并提前建立好数据库，导入sql文件。  
+0. 使用每个脚本前，如需将数据存放于数据库，则修改脚本中的if_use_sql，并修改脚本中mysql的host，username与password，并提前建立好数据库，导入sql文件。  
 1. 其中武器与圣痕可以在脚本中选择是否下载图片。
 2. 执行完成后，可以使用toexcel.py将json数据转换成excel文件。
 3. 补给数据使用方法详见补给中的README
