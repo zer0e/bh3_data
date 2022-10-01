@@ -29,7 +29,7 @@ image_dir = './image/'
 stigma = {
     'stig_name':'','stig_class':'','stig_img':'',
     'stig_hp':'','stig_attack':'','stig_def':'',
-    'stig_huixin':'','stig_skill':''
+    'stig_critical':'','stig_skill':''
 }
 stigma_class = {
     'stig_class_name':'','get_function':'','stig_class_intro':'',
@@ -82,6 +82,11 @@ def get_one_stig(data):
     stig_class_intro = re.findall("<p class=\"mark-item-19\">([\s\S]*?)</p>",r.text)[0]
     # 一个套装有几件圣痕
     stigs = re.findall("<p>(.*?)</p>",r.text)
+    # 处理成官方数据("圣痕名(上)")
+    for i in range(len(stigs)):
+        origin_name = stigs[i].strip()
+        new_name = re.sub("-(.*?)位", r"(\1)", origin_name)
+        stigs[i] = new_name
     stig_num = len(stigs)
     # 圣痕数据
     all_data = re.findall("<span>(.*?)</span>",r.text)[:-1]
@@ -129,7 +134,7 @@ def get_one_stig(data):
         stig_hp = all_data[i*4]
         stig_attack = all_data[i*4+1]
         stig_def = all_data[i*4+2]
-        stig_huixin = all_data[i*4+3]
+        stig_critical = all_data[i*4+3]
         stig_skill = all_stig_skill[i]
 
         new_stig['stig_name'] = stig_name
@@ -138,7 +143,7 @@ def get_one_stig(data):
         new_stig['stig_hp'] = stig_hp
         new_stig['stig_attack'] = stig_attack
         new_stig['stig_def'] = stig_def
-        new_stig['stig_huixin'] = stig_huixin
+        new_stig['stig_critical'] = stig_critical
         new_stig['stig_skill'] = stig_skill
         print(new_stig['stig_name'])
         # 写入新圣痕
@@ -194,7 +199,7 @@ def get_all_stig():
     import json
     with open("stigma.json","w",encoding='UTF-8') as f:
         f.write(json.dumps(stigmas,ensure_ascii=False))
-        f.close
+        f.close()
     with open("stigma_class.json","w",encoding='UTF-8') as f:
         f.write(json.dumps(stigma_classes,ensure_ascii=False))
         f.close()
